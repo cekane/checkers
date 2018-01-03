@@ -1,0 +1,60 @@
+body{
+	margin: 0px;
+	height: 0px;
+	/*background-image: url(../img/table_background2.jpg);*/
+	background-color: #f9f9f9;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+h1,h2,h3,h4,h5,h6,p{
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Mukta Malar', sans-serif;
+}
+
+#board{
+	position: absolute;
+	top: 5vh;
+	left: 17.5%;
+	bottom:5vh ;
+	right: auto;
+	width: 65%;
+	height: 90vh;
+	display: flex;
+	flex-wrap:wrap;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tileBlack{
+	flex-grow: 1;
+    height: calc(100% * (1/8));
+    width: calc(100% * (1/8) - 10px - 1px);
+	background-color: black;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+
+.tileWhite{
+	flex-grow: 1;
+    height: calc(100% * (1/8));
+    width: calc(100% * (1/8) - 10px - 1px);
+	display: inline-block;
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+}
+
+.checkerImg{
+	width: auto;
+	height: calc(100% - 5px);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img.checkerImg:hover{
+	transform: scale(1.5);
+}
