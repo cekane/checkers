@@ -39,6 +39,7 @@ function drawBoard(){
 		for(var row = 0; row < board[col].length; row++){
 			if(x == 1){
 				$('#board').append('<div id="'+ row + '' + col+ '" onclick="setClicked(' + col + ', ' + row + ')" class="tileBlack"></div>')	
+				// $('#board').append('<div id="'+ row + '' + col+ '" style="color: white" onclick="setClicked(' + col + ', ' + row + ')" class="tileBlack">Row:'+ row + ' Column:' + col+ '</div>')	
 			}
 			else{
 				$('#board').append('<div id="'+ row+ '' + col+ '" onclick="setClicked(' + col + ', ' + row + ')" class="tileWhite"></div>')
@@ -76,31 +77,74 @@ function setClicked(col, row){
 	checkMove(clicked);
 }
 
+// case 1: 
+// 	regular move either equals 
+// case 2:
+// 	regular jump
+// case 3:
+//	multiple jump
+// case 4: 
+//	get kinged
+// case 5:
+//	king move 
+
+
 function checkMove(clicked){
 	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.game.getPlayersTurn()){
 		first_clicked = clicked;
 		$('#firstClick').text(first_clicked.c + ' ' + first_clicked.r)
 		return;
 	}
-
-	if(first_clicked != null){
-		if(Math.abs(clicked.c - first_clicked.c) > 1 || Math.abs(clicked.r - first_clicked.r) > 1){
-			//first_clicked = clicked
-			$('#secondClick').text("")
-		}
-		else{
-			//Valid move
-			console.log("Clicked", clicked)
+	var clickedDiv = $('#'+ this.clicked.r + this.clicked.c);
+	if(first_clicked != null && clickedDiv.attr('class') != 'tileWhite' && clickedDiv.children().length == 0){
+		//Regular move forward
+		if(Math.abs(clicked.c - first_clicked.c) == 1 && Math.abs(clicked.r - first_clicked.r) == 1){	
 			this.second_clicked = clicked
 			$('#secondClick').text(clicked.c + ' ' + clicked.r)
 			moveChecker()
-
-			//Set it to other players turn
-			this.game.setPlayerTurn();
-			$('#playersTurn').text(game.getPlayersTurn())
-
 		}
+		//Regular jump
+		else if(Math.abs(clicked.c - first_clicked.c)==2 && Math.abs(clicked.r - first_clicked.r)==2 ){
+			if(!checkInBetween(clicked)){
+				return;
+			}
+			this.second_clicked = clicked
+			$('#secondClick').text(clicked.c + ' ' + clicked.r)
+			moveChecker()
+		}
+		else{
+			$('#secondClick').text("")
+			return;
+		}
+		//Set it to other players turn
+		this.game.setPlayerTurn();
+		$('#playersTurn').text(game.getPlayersTurn())
 	}
+}
+
+function checkInBetween(clicked){
+	var column;
+	var row;
+	if(clicked.c > first_clicked.c){
+		column = first_clicked.c + 1
+	}else{
+		column = first_clicked.c - 1
+	}
+
+	if(clicked.r > first_clicked.r){
+		row = first_clicked.r + 1
+	}else{
+		row = first_clicked.r - 1
+	}
+
+	var checkedDiv = $('#'+ row + column);
+	if(checkedDiv.children().length == 1 && checkedDiv.children().attr("id")!= game.getPlayersTurn){
+		checkedDiv.empty()
+	}
+	else{
+		return false;
+	}
+	return true;
 }
 
 function moveChecker(){
