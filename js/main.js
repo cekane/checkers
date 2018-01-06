@@ -98,7 +98,7 @@ function setClicked(col, row){
 
 function checkMove(clicked){
 	console.log("Game", this.currentGame)
-	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn()){
+	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn() || $('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn() + 'king'){
 		first_clicked = clicked;
 		$('#firstClick').text(first_clicked.c + ' ' + first_clicked.r)
 		return;
@@ -154,19 +154,45 @@ function checkInBetween(clicked){
 
 function moveChecker(){
 	if(currentGame.getPlayersTurn() == currentGame.getPlayerOne()){
-		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
+		if($('#' + this.first_clicked.r + '' + this.first_clicked.c).children().attr('id') == currentGame.getPlayerOne()){
+			$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
+		}else{
+			$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'king" src="./img/red_checker_king.png" class="checkerImg">');
+		}
 	}
 	else{
-		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
+		if($('#' + this.first_clicked.r + '' + this.first_clicked.c).children().attr('id') == currentGame.getPlayerTwo()){
+			$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
+		}else{
+			$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'king" src="./img/earth_checker_king.png" class="checkerImg">');
+		}
 	}
 
 	$('#' + this.first_clicked.r + '' + this.first_clicked.c).empty();
-
+	checkKinged()
 	this.first_clicked = null;
 	this.second_clicked = null;
 
 	$('#firstClick').text("")
 	$('#secondClick').text("")
+}
+
+function checkKinged(){
+	var player = currentGame.getPlayersTurn() 
+	if(player == currentGame.getPlayerOne() && this.second_clicked.c == 7){
+		kinged(player);
+	}else if(player == currentGame.getPlayerTwo() && this.second_clicked.c == 0){
+		kinged(player);
+	}
+}
+
+function kinged(player){
+	$('#' + this.second_clicked.r + '' + this.second_clicked.c).empty();
+	if(player == currentGame.getPlayerOne()){
+		$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'king" src="./img/red_checker_king.png" class="checkerImg">');
+	}else{
+		$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'king" src="./img/earth_checker_king.png" class="checkerImg">');
+	}
 }
 
 function checkEndofGame(){
