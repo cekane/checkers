@@ -198,4 +198,5 @@ function resetGame(){
 	clearBoard();
 	initializeGame();
 	drawPieces();
+	closePopup();
 }
