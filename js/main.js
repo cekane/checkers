@@ -11,19 +11,26 @@
 var board;
 var first_clicked = null;
 var second_clicked = null;
-var game;
+var currentGame;
 
 $( document ).ready(function(){
 	$('#board').css('background', 'grey');
+	startGame();
+})
+
+function startGame(){
+	//Creates the game object with players and whos turn it is
 	initializeGame();
 	initializeBoard();
 	drawBoard();
 	drawPieces();
-})
+}
 
 function initializeGame(){
-	game = new game('red', 'blue', 'red')
-	$('#playersTurn').text(game.getPlayersTurn())
+	currentGame = new game('p1', 'p2', 'p1')
+	$('#playersTurn').text(currentGame.getPlayersTurn())
+	$('#p1NumPieces').text(currentGame.getP1NumPieces())
+	$('#p2NumPieces').text(currentGame.getP2NumPieces())	
 }
 
 function initializeBoard(){
@@ -57,11 +64,11 @@ function drawPieces(){
 			var rowCol = row + '' + col;
 			if(col < 3 && flop == 1){
 				board[col][row] = 'red';
-				$('#'+rowCol).append('<img id="'+this.game.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">');
+				$('#'+rowCol).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">');
 			}
 			else if(col > 4 && flop == 1){
 				board[col][row] = 'blue';
-				$('#'+rowCol).append('<img id="'+this.game.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">');
+				$('#'+rowCol).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">');
 			}
 			else{
 				board[col][row] = 'empty';
@@ -77,20 +84,21 @@ function setClicked(col, row){
 	checkMove(clicked);
 }
 
-// case 1: 
-// 	regular move either equals 
-// case 2:
-// 	regular jump
-// case 3:
+// Todo 1: 
+// 	regular move either equals --DONE
+// Todo 2:
+// 	regular jump --DONE
+// Todo 3:
 //	multiple jump
-// case 4: 
+// Todo 4: -- have idead for this
 //	get kinged
-// case 5:
+// Todo 5: -- Have idea for this
 //	king move 
 
 
 function checkMove(clicked){
-	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.game.getPlayersTurn()){
+	console.log("Game", this.currentGame)
+	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn()){
 		first_clicked = clicked;
 		$('#firstClick').text(first_clicked.c + ' ' + first_clicked.r)
 		return;
@@ -111,34 +119,31 @@ function checkMove(clicked){
 			this.second_clicked = clicked
 			$('#secondClick').text(clicked.c + ' ' + clicked.r)
 			moveChecker()
+			currentGame.removePiece(currentGame.getPlayersTurn());			
 		}
 		else{
 			$('#secondClick').text("")
 			return;
 		}
 		//Set it to other players turn
-		this.game.setPlayerTurn();
-		$('#playersTurn').text(game.getPlayersTurn())
+		this.currentGame.setPlayerTurn();
+		$('#playersTurn').text(currentGame.getPlayersTurn())
+		$('#'+ currentGame.getPlayerOne() +'NumPieces').text(currentGame.getP1NumPieces());
+		$('#'+ currentGame.getPlayerTwo() +'NumPieces').text(currentGame.getP2NumPieces());
+		checkEndofGame()
 	}
 }
 
 function checkInBetween(clicked){
-	var column;
-	var row;
-	if(clicked.c > first_clicked.c){
-		column = first_clicked.c + 1
-	}else{
-		column = first_clicked.c - 1
-	}
+	var column, row;
+	if(clicked.c > first_clicked.c){ column = first_clicked.c + 1 }
+	else{ column = first_clicked.c - 1	}
 
-	if(clicked.r > first_clicked.r){
-		row = first_clicked.r + 1
-	}else{
-		row = first_clicked.r - 1
-	}
+	if(clicked.r > first_clicked.r){ row = first_clicked.r + 1 }
+	else{ row = first_clicked.r - 1 }
 
 	var checkedDiv = $('#'+ row + column);
-	if(checkedDiv.children().length == 1 && checkedDiv.children().attr("id")!= game.getPlayersTurn){
+	if(checkedDiv.children().length == 1 && checkedDiv.children().attr("id")!= currentGame.getPlayersTurn){
 		checkedDiv.empty()
 	}
 	else{
@@ -148,11 +153,11 @@ function checkInBetween(clicked){
 }
 
 function moveChecker(){
-	if(game.getPlayersTurn() == game.getPlayerOne()){
-		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.game.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
+	if(currentGame.getPlayersTurn() == currentGame.getPlayerOne()){
+		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
 	}
 	else{
-		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.game.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
+		$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
 	}
 
 	$('#' + this.first_clicked.r + '' + this.first_clicked.c).empty();
@@ -162,4 +167,35 @@ function moveChecker(){
 
 	$('#firstClick').text("")
 	$('#secondClick').text("")
+}
+
+function checkEndofGame(){
+	if(currentGame.getP1NumPieces() == 0){
+		gameOver(currentGame.getPlayerTwo())
+	}else if(currentGame.getP2NumPieces() == 0){
+		gameOver(currentGame.getPlayerOne())
+	}
+}
+
+function gameOver(player){
+	$('#myModal').show()
+	$('#winner').text(player)	
+}
+
+function closePopup(){
+	$('#myModal').hide()
+}
+
+function clearBoard(){
+	for(var col = 0; col < board.length; col++){
+		for(var row = 0; row < board[col].length; row++){	
+			$('#'+ row + '' + col).empty();
+		}
+	}
+}
+
+function resetGame(){
+	clearBoard();
+	initializeGame();
+	drawPieces();
 }

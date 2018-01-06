@@ -12,6 +12,22 @@
     <h3>Players Turn: <h1 id="playersTurn"></h1></h3>
     <h3>First: <h1 id="firstClick"></h1></h3>
     <h3>Second: <h1 id="secondClick"></h1></h3>
+    <h3>Red Number of Pieces<h1 id="p1NumPieces"></h1></h3>
+    <h3>Blue Number of Pieces<h1 id="p2NumPieces"></h1></h3>
+
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span onClick="closePopup()" class="close">&times;</span>
+        <h1>GAME OVER</h1>
+        <h2>Player <i><b id="winner"> </b></i> is the winner</h2>
+        <button onClick="resetGame()">Play Again</button>
+      </div>
+
+    </div>
+
+    <button onClick="gameOver()">Game over</button>
+    <button onClick="resetGame()">Reset Game</button>
     <div id="board">
     </div>
     <script type="text/javascript" src="./js/game.js"></script>
