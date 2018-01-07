@@ -84,27 +84,25 @@ function setClicked(col, row){
 	checkMove(clicked);
 }
 
-// Todo 1: 
-// 	regular move either equals --DONE
-// Todo 2:
-// 	regular jump --DONE
-// Todo 3:
-//	multiple jump
-// Todo 4: -- have idead for this
-//	get kinged
-// Todo 5: -- Have idea for this
-//	king move 
-
-
 function checkMove(clicked){
 	console.log("Game", this.currentGame)
-	if($('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn() || $('#' + this.clicked.r + this.clicked.c).children().attr("id") == this.currentGame.getPlayersTurn() + 'king'){
-		first_clicked = clicked;
+	var clickedDiv = $('#'+ this.clicked.r + this.clicked.c);
+	var playsersTurn = this.currentGame.getPlayersTurn();
+
+	if(clickedDiv.children().attr("id") == playsersTurn || clickedDiv.children().attr("id") == playsersTurn + 'king'){
+		this.first_clicked = clicked;
+		//FOR DEBUGING
 		$('#firstClick').text(first_clicked.c + ' ' + first_clicked.r)
 		return;
 	}
-	var clickedDiv = $('#'+ this.clicked.r + this.clicked.c);
-	if(first_clicked != null && clickedDiv.attr('class') != 'tileWhite' && clickedDiv.children().length == 0){
+	
+	/*
+		- Valid first click for players turn
+	 	- Second clicked isn't a white tile 
+	 	- There aren't any peices inside the div that was clicked
+		- Move is either forward or kinged
+	*/
+	if( this.first_clicked != null && clickedDiv.attr('class') != 'tileWhite' && clickedDiv.children().length == 0 && checkForward(clicked)){
 		//Regular move forward
 		if(Math.abs(clicked.c - first_clicked.c) == 1 && Math.abs(clicked.r - first_clicked.r) == 1){	
 			this.second_clicked = clicked
@@ -117,9 +115,10 @@ function checkMove(clicked){
 				return;
 			}
 			this.second_clicked = clicked
+			//FOR DEBUGING
 			$('#secondClick').text(clicked.c + ' ' + clicked.r)
 			moveChecker()
-			currentGame.removePiece(currentGame.getPlayersTurn());			
+			currentGame.removePiece(currentGame.getPlayersTurn());
 		}
 		else{
 			$('#secondClick').text("")
@@ -128,9 +127,24 @@ function checkMove(clicked){
 		//Set it to other players turn
 		this.currentGame.setPlayerTurn();
 		$('#playersTurn').text(currentGame.getPlayersTurn())
+
+		//FOR DEBUGING
 		$('#'+ currentGame.getPlayerOne() +'NumPieces').text(currentGame.getP1NumPieces());
 		$('#'+ currentGame.getPlayerTwo() +'NumPieces').text(currentGame.getP2NumPieces());
 		checkEndofGame()
+	}
+}
+
+function checkForward(clicked, clickedDiv){
+	var playersTurn = currentGame.getPlayersTurn()
+	if($('#'+ this.first_clicked.r + this.first_clicked.c).children().attr("id") == playersTurn + 'king'){
+		return true;
+	}
+	else if(playersTurn == 'p1' && clicked.c > this.first_clicked.c || playersTurn == 'p2' && clicked.c < this.first_clicked.c){
+		return true;
+	}
+	else{
+		return false;
 	}
 }
 
