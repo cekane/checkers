@@ -11,7 +11,6 @@ body{
 h1,h2,h3,h4,h5,h6,p{
 	margin: 0px;
 	padding: 0px;
-	font-family: 'Mukta Malar', sans-serif;
 }
 
 #board{
@@ -56,7 +55,7 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 img.checkerImg:hover{
-	transform: scale(1.5);
+	transform: scale(1.3);
 }
 
 .modal {
@@ -95,4 +94,10 @@ img.checkerImg:hover{
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.resetGame{
+	position: absolute;
+	top: 5vh;
+	right: 10px;
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Checkers</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/skeleton.css">
+    <link rel="shortcut icon" href="./img/chess-board-icon.ico" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Mukta+Malar" rel="stylesheet">
+  </head>
+  <body>
+    <p>Players Turn: <p id="playersTurn"></p></p>
+    <p>Red Number of Pieces<p id="p1NumPieces"></p></p>
+    <p>Blue Number of Pieces<p id="p2NumPieces"></p></p>
+
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span onClick="closePopup()" class="close">&times;</span>
+        <h1>GAME OVER</h1>
+        <h2>Player <i><b id="winner"> </b></i> is the winner</h2>
+        <button onClick="resetGame()">Play Again</button>
+      </div>
+
+    </div>
+
+    <button onClick="gameOver()">Game over</button>
+    </br>
+    <button class="resetGame" onClick="resetGame()">Reset Game</button>
+    <div id="board">
+    </div>
+    <script type="text/javascript" src="./js/game.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+  </body>
+</html>

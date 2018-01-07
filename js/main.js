@@ -8,20 +8,21 @@
 // [ ][x][ ][x][ ][x][ ][x]		BLUE - Player 2
 // [x][ ][x][ ][x][ ][x][ ]
 
-var board;
 var first_clicked = null;
 var second_clicked = null;
 var currentGame;
+var rowLength;
+var columnLength;
 
 $( document ).ready(function(){
 	$('#board').css('background', 'grey');
+	rowLength = 8;
+	columnLength = 8;
 	startGame();
 })
 
 function startGame(){
-	//Creates the game object with players and whos turn it is
 	initializeGame();
-	initializeBoard();
 	drawBoard();
 	drawPieces();
 }
@@ -33,19 +34,13 @@ function initializeGame(){
 	$('#p2NumPieces').text(currentGame.getP2NumPieces())	
 }
 
-function initializeBoard(){
-	board = new Array(8);
-	for(var col = 0; col < board.length; col++){
-		board[col] = new Array(8);
-	}
-}
-
 function drawBoard(){
 	var x = 1;
-	for(var col = 0; col < board.length; col++){
-		for(var row = 0; row < board[col].length; row++){
+	for(var col = 0; col < columnLength; col++){
+		for(var row = 0; row < rowLength; row++){
 			if(x == 1){
 				$('#board').append('<div id="'+ row + '' + col+ '" onclick="setClicked(' + col + ', ' + row + ')" class="tileBlack"></div>')	
+				//FOR DEBUGING
 				// $('#board').append('<div id="'+ row + '' + col+ '" style="color: white" onclick="setClicked(' + col + ', ' + row + ')" class="tileBlack">Row:'+ row + ' Column:' + col+ '</div>')	
 			}
 			else{
@@ -59,19 +54,14 @@ function drawBoard(){
 
 function drawPieces(){
 	var flop = 1;
-	for(var col = 0; col < board.length; col++){
-		for(var row = 0; row < board[col].length; row++){
+	for(var col = 0; col < columnLength; col++){
+		for(var row = 0; row < rowLength; row++){
 			var rowCol = row + '' + col;
 			if(col < 3 && flop == 1){
-				board[col][row] = 'red';
 				$('#'+rowCol).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">');
 			}
 			else if(col > 4 && flop == 1){
-				board[col][row] = 'blue';
 				$('#'+rowCol).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">');
-			}
-			else{
-				board[col][row] = 'empty';
 			}
 			flop = flop * -1; 
 		}
@@ -91,11 +81,8 @@ function checkMove(clicked){
 
 	if(clickedDiv.children().attr("id") == playsersTurn || clickedDiv.children().attr("id") == playsersTurn + 'king'){
 		this.first_clicked = clicked;
-		//FOR DEBUGING
-		$('#firstClick').text(first_clicked.c + ' ' + first_clicked.r)
 		return;
 	}
-	
 	/*
 		- Valid first click for players turn
 	 	- Second clicked isn't a white tile 
@@ -106,8 +93,7 @@ function checkMove(clicked){
 		//Regular move forward
 		if(Math.abs(clicked.c - first_clicked.c) == 1 && Math.abs(clicked.r - first_clicked.r) == 1){	
 			this.second_clicked = clicked
-			$('#secondClick').text(clicked.c + ' ' + clicked.r)
-			moveChecker()
+			moveChecker(clickedDiv)
 		}
 		//Regular jump
 		else if(Math.abs(clicked.c - first_clicked.c)==2 && Math.abs(clicked.r - first_clicked.r)==2 ){
@@ -115,13 +101,10 @@ function checkMove(clicked){
 				return;
 			}
 			this.second_clicked = clicked
-			//FOR DEBUGING
-			$('#secondClick').text(clicked.c + ' ' + clicked.r)
-			moveChecker()
+			moveChecker(clickedDiv)
 			currentGame.removePiece(currentGame.getPlayersTurn());
 		}
 		else{
-			$('#secondClick').text("")
 			return;
 		}
 		//Set it to other players turn
@@ -166,19 +149,20 @@ function checkInBetween(clicked){
 	return true;
 }
 
-function moveChecker(){
+function moveChecker(secondClickedDiv){
+	var firstClickedDiv = $('#' + this.first_clicked.r + '' + this.first_clicked.c)
 	if(currentGame.getPlayersTurn() == currentGame.getPlayerOne()){
-		if($('#' + this.first_clicked.r + '' + this.first_clicked.c).children().attr('id') == currentGame.getPlayerOne()){
-			$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
+		if(firstClickedDiv.children().attr('id') == currentGame.getPlayerOne()){
+			secondClickedDiv.append('<img id="'+this.currentGame.getPlayerOne()+'" src="./img/red_checker.png" class="checkerImg">')
 		}else{
-			$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerOne()+'king" src="./img/red_checker_king.png" class="checkerImg">');
+			secondClickedDiv.append('<img id="'+this.currentGame.getPlayerOne()+'king" src="./img/red_checker_king.png" class="checkerImg">');
 		}
 	}
 	else{
-		if($('#' + this.first_clicked.r + '' + this.first_clicked.c).children().attr('id') == currentGame.getPlayerTwo()){
-			$('#' + this.second_clicked.r + ''+ this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
+		if(firstClickedDiv.children().attr('id') == currentGame.getPlayerTwo()){
+			secondClickedDiv.append('<img id="'+this.currentGame.getPlayerTwo()+'" src="./img/earth_checker.png" class="checkerImg">')
 		}else{
-			$('#' + this.second_clicked.r + '' + this.second_clicked.c).append('<img id="'+this.currentGame.getPlayerTwo()+'king" src="./img/earth_checker_king.png" class="checkerImg">');
+			secondClickedDiv.append('<img id="'+this.currentGame.getPlayerTwo()+'king" src="./img/earth_checker_king.png" class="checkerImg">');
 		}
 	}
 
@@ -186,9 +170,6 @@ function moveChecker(){
 	checkKinged()
 	this.first_clicked = null;
 	this.second_clicked = null;
-
-	$('#firstClick').text("")
-	$('#secondClick').text("")
 }
 
 function checkKinged(){
@@ -227,8 +208,8 @@ function closePopup(){
 }
 
 function clearBoard(){
-	for(var col = 0; col < board.length; col++){
-		for(var row = 0; row < board[col].length; row++){	
+	for(var col = 0; col < columnLength; col++){
+		for(var row = 0; row < rowLength; row++){	
 			$('#'+ row + '' + col).empty();
 		}
 	}

@@ -3,34 +3,49 @@
   <head>
     <meta charset="UTF-8">
     <title>Checkers</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/preGame.css">
+    <link rel="stylesheet" href="./css/skeleton.css">
     <link rel="shortcut icon" href="./img/chess-board-icon.ico" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Mukta+Malar" rel="stylesheet">
   </head>
   <body>
-    <h3>Players Turn: <h1 id="playersTurn"></h1></h3>
-    <h3>First: <h1 id="firstClick"></h1></h3>
-    <h3>Second: <h1 id="secondClick"></h1></h3>
-    <h3>Red Number of Pieces<h1 id="p1NumPieces"></h1></h3>
-    <h3>Blue Number of Pieces<h1 id="p2NumPieces"></h1></h3>
-
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span onClick="closePopup()" class="close">&times;</span>
-        <h1>GAME OVER</h1>
-        <h2>Player <i><b id="winner"> </b></i> is the winner</h2>
-        <button onClick="resetGame()">Play Again</button>
+    <div class="content">
+      
+      <h1 class="header">Checkers</h1>
+      <div class="row playerSetup">
+        <div class="six columns">
+          <label for="exampleEmailInput">Player One Name: </label>
+          <input class="u-full-width" type="text" placeholder="Player One...">
+        </div>
+        <div class="six columns">
+          <label for="exampleRecipientInput">Player One Piece:</label>
+          <select class="u-full-width" id="exampleRecipientInput">
+            <option value="Option 1">Standard_Red</option>
+            <option value="Option 2">Admiration</option>
+            <option value="Option 3">Can I get your number?</option>
+          </select>
+        </div>
       </div>
 
+      <div class="row playerSetup">
+        <div class="six columns">
+          <label for="exampleEmailInput">Player Two Name:</label>
+          <input class="u-full-width" type="text" placeholder="Player One...">
+        </div>
+        <div class="six columns">
+          <label for="exampleRecipientInput">Player Two Piece:</label>
+          <select class="u-full-width" id="exampleRecipientInput">
+            <option value="Option 1">Standard_Blue</option>
+            <option value="Option 2">Admiration</option>
+            <option value="Option 3">Can I get your number?</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="playGame" onClick="startGame()" >Play Game</button>
     </div>
 
-    <button onClick="gameOver()">Game over</button>
-    <button onClick="resetGame()">Reset Game</button>
-    <div id="board">
-    </div>
-    <script type="text/javascript" src="./js/game.js"></script>
-    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/preGame.js"></script>
   </body>
 </html>

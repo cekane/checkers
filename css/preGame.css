@@ -1,0 +1,22 @@
+.playGame{
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.content{
+	width: 75%;
+	margin-top: 10vh;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.playerSetup{
+	width: 75%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.header{
+	margin-left: 12.5%;
+}
