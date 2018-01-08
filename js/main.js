@@ -29,9 +29,7 @@ function startGame(){
 
 function initializeGame(){
 	currentGame = new game('p1', 'p2', 'p1')
-	$('#playersTurn').text(currentGame.getPlayersTurn())
-	$('#p1NumPieces').text(currentGame.getP1NumPieces())
-	$('#p2NumPieces').text(currentGame.getP2NumPieces())	
+	$('#playersTurn').text(currentGame.getPlayersTurn())	
 }
 
 function drawBoard(){
@@ -104,6 +102,9 @@ function checkMove(clicked){
 			moveChecker(clickedDiv)
 			currentGame.removePiece(currentGame.getPlayersTurn());
 		}
+		else if(Math.abs(clicked.c - first_clicked.c)==4){
+
+		}
 		else{
 			return;
 		}
@@ -111,9 +112,6 @@ function checkMove(clicked){
 		this.currentGame.setPlayerTurn();
 		$('#playersTurn').text(currentGame.getPlayersTurn())
 
-		//FOR DEBUGING
-		$('#'+ currentGame.getPlayerOne() +'NumPieces').text(currentGame.getP1NumPieces());
-		$('#'+ currentGame.getPlayerTwo() +'NumPieces').text(currentGame.getP2NumPieces());
 		checkEndofGame()
 	}
 }

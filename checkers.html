@@ -10,9 +10,11 @@
     <link href="https://fonts.googleapis.com/css?family=Mukta+Malar" rel="stylesheet">
   </head>
   <body>
-    <p>Players Turn: <p id="playersTurn"></p></p>
-    <p>Red Number of Pieces<p id="p1NumPieces"></p></p>
-    <p>Blue Number of Pieces<p id="p2NumPieces"></p></p>
+    <div class="leftSideContent">
+      <p class="descriptionText">Players Turn: </p>
+      <p id="playersTurn"></p>
+      <button onClick="gameOver()">Game over</button>
+    </div>
 
     <div id="myModal" class="modal">
       <!-- Modal content -->
@@ -24,10 +26,10 @@
       </div>
 
     </div>
-
-    <button onClick="gameOver()">Game over</button>
-    </br>
-    <button class="resetGame" onClick="resetGame()">Reset Game</button>
+    <div class="rightSideContent">
+      <button class="resetGame" onClick="resetGame()">Reset Game</button>
+    </div>
+    
     <div id="board">
     </div>
     <script type="text/javascript" src="./js/game.js"></script>

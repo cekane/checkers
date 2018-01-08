@@ -48,8 +48,8 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 .checkerImg{
-	width: auto;
 	height: calc(100% - 5px);
+	width: auto;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -96,8 +96,22 @@ img.checkerImg:hover{
     cursor: pointer;
 }
 
-.resetGame{
+.rightSideContent{
+	position: absolute;
+	width: 17.5%;
+	height: 90vh;
+	top: 5vh;
+	right: 0px;
+	display: flex;
+  	justify-content: center;
+}
+
+.leftSideContent{
 	position: absolute;
 	top: 5vh;
-	right: 10px;
+	left: 2.5%;
+}
+
+.resetGame{
+	width: 75%;
 }
